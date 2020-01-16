@@ -6,16 +6,18 @@ import datetime
 
 df = pd.read_json('data.json', lines=True,convert_dates=True)
 df.create_time = df.create_time.apply(pd.to_datetime)
-df['create_date'] = [d.date() for d in df['create_time']]
-df['create_hour'] = [d.time() for d in df['create_time']]
+df['create_date'] = [str(d.date()) for d in df['create_time']]
+df['create_year'],df['create_month'],df['create_day'] = df['create_date'].str.split('-',2).str
+df['create_times'] = [str(d.time()) for d in df['create_time']]
+df['create_hour'],df['create_minute'],df['create_sec'] = df['create_times'].str.split(':',2).str
 df
 #st.dataframe(pd.DataFrame(df.groupby(df['username'])))
 
 users = set(df['username'])
 
-ndf = pd.DataFrame(df.groupby(df['create_time'].dt.hour).mean(),columns=['memory_percent', 'cpu_percent','num_threads','cmdline'])
-st.line_chart(ndf)
-    
+#ndf = pd.DataFrame(df.groupby([df.create_day,df.create_month]).mean(),columns=['memory_percent', 'cpu_percent','num_threads','cmdline'])
+#st.line_chart(ndf)
+#ndf
 info_mode = st.sidebar.radio('Ver info:',('General','Por Usuario'))
 
 date = st.sidebar.date_input("fecha",datetime.datetime.now())
@@ -24,6 +26,7 @@ date = st.sidebar.date_input("fecha",datetime.datetime.now())
 if info_mode == 'General':
     details_mode = st.sidebar.checkbox('ver datos por hora',key='details')
     
+    st.line_chart(date_data)
     if details_mode:
         hora = st.sidebar.slider("hora", 0,23,12,key="hora")
         if hora in [x[0] for x in hour_data_group]:
