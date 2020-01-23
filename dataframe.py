@@ -71,8 +71,8 @@ if info_mode == 'General':
     #         if st.checkbox("mostrar dataframe"):
     #             #poner el dataframe completo
     #             df
-        except:
-            st.text("No hay datos de la fecha selecionada")
+        # except:
+        #     st.text("No hay datos de la fecha selecionada")
             
     details_day_mode = st.sidebar.checkbox('ver datos de un día',key='details_day')
     if details_day_mode:
@@ -83,12 +83,13 @@ if info_mode == 'General':
             df = pd.DataFrame(df.groupby('create_time').sum(),columns=['memory_percent','cpu_percent','num_threads'])
             st.line_chart(df)
             if st.checkbox("mostrar dataframe"):
-                #poner el dataframe completo
-                df
-                
+                day_df = dataframe[dataframe['create_day'] == str(date_day.day)]     
+                day_df = day_df[day_df['create_month'] == str(date_day.month)]
+                day_df = day_df[day_df['create_year'] == str(date_day.year)]
+                day_df
         except:
            st.text("No hay datos de la fecha selecionada") 
-        
+           
 else:
     selected = st.multiselect("Usuarios", [x for x in users])
     st.text(x for x in selected)
@@ -109,3 +110,4 @@ if summary:
         st.text("No hay datos de la fecha selecionada")
         
 # def hour_filter(dataframe,date,):
+ 
