@@ -86,13 +86,14 @@ if info_mode == 'General':
                 day_df = dataframe[dataframe['create_day'] == str(date_day.day)]     
                 day_df = day_df[day_df['create_month'] == str(date_day.month)]
                 day_df = day_df[day_df['create_year'] == str(date_day.year)]
+                day_df = day_df.sort_values('create_time')
                 day_df
         except:
            st.text("No hay datos de la fecha selecionada") 
            
-else:
-    selected = st.multiselect("Usuarios", [x for x in users])
-    st.text(x for x in selected)
+# else:
+#     selected = st.multiselect("Usuarios", [x for x in users])
+#     st.text(x for x in selected)
 
 
 summary = st.sidebar.checkbox("Mostrar total de recursos consumidos en un mes")
