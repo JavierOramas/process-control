@@ -59,18 +59,21 @@ info_mode = st.sidebar.radio('Ver info:',('General','Por Usuario'))
 
 if info_mode == 'General':
     
-    details_hour_mode = st.sidebar.checkbox('ver datos por hora',key='details')
-    if details_hour_mode:
-        date_hour = st.sidebar.date_input("fecha",datetime.datetime.now(), key="hourdate")
-        hora = st.sidebar.slider("hora", 0,23,12,key="hora")
-        # hour_data_group = df
-        # if hora in [x[0] for x in hour_data_group]:
-        #     hour_data = hour_data_group.get_group(hora)
-        #     hour_data
-        #     hour_df_data = pd.DataFrame(hour_data.groupby(hour_data['create_time'].dt.minute).sum(),columns=['memory_percent','cpu_percent','num_threads'])
-        #     hour_df_data
-        #     st.line_chart(hour_df_data)
-    
+    # details_hour_mode = st.sidebar.checkbox('ver datos por hora',key='details')
+    # if details_hour_mode:
+    #     date_hour = st.sidebar.date_input("fecha",datetime.datetime.now(), key="hourdate")
+    #     hora = st.sidebar.slider("hora", 0,23,12,key="hora")
+    #     try:
+    #         df = group_by_day(date_day,ndf)  
+    #         df = pd.DataFrame(df.groupby('create_time').sum(),columns=['memory_percent','cpu_percent','num_threads','create_hour'])
+            
+    #         st.line_chart(df)
+    #         if st.checkbox("mostrar dataframe"):
+    #             #poner el dataframe completo
+    #             df
+        except:
+            st.text("No hay datos de la fecha selecionada")
+            
     details_day_mode = st.sidebar.checkbox('ver datos de un día',key='details_day')
     if details_day_mode:
         date_day = st.sidebar.date_input("fecha",datetime.datetime.now(), key="daydate")
@@ -79,6 +82,10 @@ if info_mode == 'General':
             df = group_by_day(date_day,ndf)  
             df = pd.DataFrame(df.groupby('create_time').sum(),columns=['memory_percent','cpu_percent','num_threads'])
             st.line_chart(df)
+            if st.checkbox("mostrar dataframe"):
+                #poner el dataframe completo
+                df
+                
         except:
            st.text("No hay datos de la fecha selecionada") 
         
@@ -102,4 +109,3 @@ if summary:
         st.text("No hay datos de la fecha selecionada")
         
 # def hour_filter(dataframe,date,):
-   
