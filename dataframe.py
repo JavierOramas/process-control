@@ -60,9 +60,10 @@ df_for_date=split_date(dataframe)
 users = set(dataframe['username'])
 
 dataframe_by_name = pd.DataFrame(dataframe.groupby(['username']).sum(), columns=['memory_percent', 'cpu_percent','num_threads'])
-st.dataframe(dataframe_by_name)
+#st.dataframe(dataframe_by_name)
 
 ndf = pd.DataFrame(dataframe.groupby(dataframe['create_time'].dt.day).mean(),columns=['memory_percent', 'cpu_percent','num_threads','cmdline'])
+st.text("Consumo general")
 st.line_chart(ndf)
     
 info_mode = st.sidebar.radio('Ver info:',('General','Por Usuario'))
@@ -71,17 +72,17 @@ info_mode = st.sidebar.radio('Ver info:',('General','Por Usuario'))
 #day_data = day_data_group.get_group(date) 
 
 if info_mode == 'General':
-    details_mode = st.sidebar.checkbox('ver datos por hora',key='details')
+    #details_mode = st.sidebar.checkbox('ver datos por hora',key='details')
     
     details_day_mode = st.sidebar.checkbox('ver datos de un día',key='details_day')
     if details_day_mode:
         date_day = st.sidebar.date_input("fecha",datetime.datetime.now(), key="daydate")
-        st.text(str(date_day.day)+'-'+str(date_day.month)+'-'+str(date_day.year))
+        st.text("Consumo en el dia: "+str(date_day.day)+'-'+str(date_day.month)+'-'+str(date_day.year))
         try:            
             df = group_by_day(date_day,ndf)  
             df = pd.DataFrame(df.groupby('create_time').sum(),columns=['memory_percent','cpu_percent','num_threads'])
             st.line_chart(df)
-            if st.checkbox("mostrar dataframe"):
+            if st.checkbox("mostrar eventos"):
                 day_df = dataframe[dataframe['create_day'] == str(date_day.day)]     
                 day_df = day_df[day_df['create_month'] == str(date_day.month)]
                 day_df = day_df[day_df['create_year'] == str(date_day.year)]
@@ -104,7 +105,6 @@ if summary:
         date = st.sidebar.date_input("fecha",datetime.datetime.now())
         month=date.month
         year=date.year
-        st.text(year)
         tupla=(str(year),str(month))
         new_df=df_for_date.groupby(['create_year' , 'create_month'])
         new_df=new_df.get_group(tupla)
@@ -121,7 +121,7 @@ if summary:
         x_position=[x-barWidth for x in x_position]
         count=0
         #new_df.iloc[:,0]
-        st.text(list(new_df.iloc[0]))
+        #st.text(list(new_df.iloc[0]))
         usernames = usernames.groups.keys()
         colors=generate_random_colors(len(usernames))
 
@@ -138,3 +138,4 @@ if summary:
         st.pyplot(plt.show())
     except:
         st.text("No hay datos de la fecha selecionada")
+        
