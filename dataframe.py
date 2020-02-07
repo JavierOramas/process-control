@@ -110,6 +110,7 @@ if summary:
         new_df=new_df.get_group(tupla)
         new_df=new_df.drop(new_df.columns[6:], axis=1)
         st.dataframe(new_df)
+        users_df = new_df
 
         usernames = new_df.groupby(['username'])
         new_df = pd.DataFrame(usernames.mean(), columns=['memory_percent', 'cpu_percent','num_threads'])
@@ -136,6 +137,15 @@ if summary:
         plt.ylabel('Total en el mes')
         plt.legend()
         st.pyplot(plt.show())
+        
     except:
         st.text("No hay datos de la fecha selecionada")
         
+    selected = st.multiselect("Usuarios", [x for x in users])
+    for x in selected:
+        st.markdown(x)
+        df_filter = users_df['username'] == x
+        user_df = users_df[df_filter]
+        user_df
+        plot_df = pd.DataFrame(user_df.groupby(dataframe['create_time'].dt.day).mean(),columns=['memory_percent', 'cpu_percent','num_threads'])
+        st.line_chart(plot_df)
