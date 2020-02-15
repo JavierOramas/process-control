@@ -17,7 +17,7 @@ def remove_columns(dataframe, columns_needed):
     dataframe=dataframe.drop(columns, axis=1)  
     return dataframe
 
-dataframe = pd.read_json('data.json', lines=True, convert_dates=True)
+dataframe = pd.read_json('log.json', lines=True, convert_dates=True)
 columns_needed=['username','create_time', 'memory_percent', 'num_threads', 'cpu_percent','cmdline']
 
 dataframe=remove_columns(dataframe, columns_needed)
