@@ -11,7 +11,7 @@ def process(file):
     for p in psutil.process_iter():
         if p.memory_percent() > 5:
             print(p.cpu_percent(0.1))
-            f.write(json.dumps(p.as_dict(), default=str)+'\n')
+            f.write(json.dumps(p.as_dict(), default=str))
 
 
 if __name__ == "__main__":
