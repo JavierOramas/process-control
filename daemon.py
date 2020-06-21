@@ -2,9 +2,12 @@ import time
 import json
 import io
 import psutil
+import gputils
 
 #to run it
 #nohup python -u daemon.py &
+
+#TODO: add gputils info
 
 while True:
     time.sleep(1)
