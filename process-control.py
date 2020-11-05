@@ -15,5 +15,5 @@ def process(file):
 
 
 if __name__ == "__main__":
-    #f = open('data.json')
-    #process()
+    f = open('data.json')
+    process()
